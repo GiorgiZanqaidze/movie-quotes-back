@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class StoreUserRequest extends FormRequest
 {
@@ -20,6 +21,14 @@ class StoreUserRequest extends FormRequest
 		];
 
 		return $rules;
+	}
+
+	protected function prepareForValidation()
+	{
+		$token = Str::random(64);
+		$this->merge([
+			'remember_token' => $token,
+		]);
 	}
 
 	public function messages()

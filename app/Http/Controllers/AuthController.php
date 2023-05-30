@@ -2,33 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
-use App\Mail\VerifyEmail;
+use App\Http\Requests\LoginUserRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\ValidationException;
 
 class AuthController extends Controller
 {
-	public function register(StoreUserRequest $request)
+	public function login(LoginUserRequest $request)
 	{
-		$createUser = User::create($request->validated());
-
-		Mail::to("$createUser->email")->send(new VerifyEmail($createUser->remember_token));
-
-		return response()->json(['msg' => 'Registered Successfully']);
-	}
-
-	public function login(Request $request)
-	{
-		$request->validate([
-			'email'       => 'required|email',
-			'password'    => 'required',
-			'device_name' => 'required',
-		]);
-
 		$user = User::where('email', $request->email)->first();
 
 		if (!$user || !Hash::check($request->password, $user->password)) {

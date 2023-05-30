@@ -8,7 +8,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class VerifyEmail extends Mailable
+class ResetPassword extends Mailable
 {
 	use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class VerifyEmail extends Mailable
 	public function envelope(): Envelope
 	{
 		return new Envelope(
-			subject: 'Verify Email Mail',
+			subject: 'Reset Password Mail',
 		);
 	}
 
@@ -38,7 +38,7 @@ class VerifyEmail extends Mailable
 	public function content(): Content
 	{
 		return new Content(
-			view: 'mails.register-mail',
+			view: 'mails.password-mail',
 		);
 	}
 
@@ -55,8 +55,8 @@ class VerifyEmail extends Mailable
 	public function build()
 	{
 		app()->setLocale(app()->getLocale());
-		return $this->view('mails.register-mail')
-		->with(['token' => $this->data->remember_token])
-		->with(['name'=> $this->data->name]);
+		return $this->view('mails.password-mail')
+					->with(['token' => $this->data->remember_token])
+					->with(['name'=> $this->data->name]);
 	}
 }
