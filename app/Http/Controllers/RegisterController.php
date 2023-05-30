@@ -21,4 +21,19 @@ class RegisterController extends Controller
 
 		return response()->json(['msg' => 'Registered Successfully']);
 	}
+
+	public function verifyAccount(String $token)
+	{
+		$verifyUser = User::where('remember_token', $token)->first();
+
+		if (!is_null($verifyUser)) {
+			if (!$verifyUser->email_verified_at) {
+				$verifyUser->email_verified_at = now();
+				$verifyUser->save();
+			}
+			return response()->json(['msg' => 'You are verified Successfully']);
+		}
+
+		return response()->json(['msg' => 'You are not verified']);
+	}
 }

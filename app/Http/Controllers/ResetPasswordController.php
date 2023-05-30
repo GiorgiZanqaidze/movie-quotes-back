@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateUserPasswordRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Mail\ResetPassword as MailResetPassword;
 use App\Models\User;
@@ -14,10 +15,16 @@ class ResetPasswordController extends Controller
 	{
 		$request->validated();
 		$user = User::where('email', $request->email)->first();
-		$token = $user->remember_token;
 
 		Mail::to("$user->email")->send(new MailResetPassword($user));
 
+		return response()->json(['msg' => 'Send email Successfully']);
+	}
+
+	public function update(string $token, UpdateUserPasswordRequest $request): JsonResponse
+	{
+		$user = User::where('remember_token', $token)->first();
+		$user->update($request->validated());
 		return response()->json(['msg' => 'Send email Successfully']);
 	}
 }

@@ -48,6 +48,16 @@
           word-wrap: break-word;
         }
       }
+      @media (max-width: 1000px) {
+        .center-box {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        p {
+          max-width: 400px;
+          word-wrap: break-word;
+        }
+      }
 
     </style>
   </head>
