@@ -21,6 +21,7 @@
         width: 200px;
         display: inline-block;
         text-align: center;
+        text-decoration: none;
       }
       .center-box {
         display: flex;
@@ -37,6 +38,14 @@
         flex-direction: column;
         gap: 20px;
       }
+      h1 {
+        margin-top: 0;
+      }
+
+      img {
+        margin-top: 30px;
+        margin-bottom: 0;
+      }
 
       @media (max-width: 600px) {
         .center-box {
@@ -48,11 +57,43 @@
           word-wrap: break-word;
         }
       }
-
+      @media (max-width: 1000px) {
+        .center-box {
+          max-width: 600px;
+          margin: 0 auto;
+        }
+        .describe {
+          gap: 5px;
+        }
+        p {
+          max-width: 400px;
+          font-size: 14px;
+          word-wrap: break-word;
+        }
+        a {
+          font-size: 14px;
+          padding: 10px 20px;
+          width: 100px;
+          display: inline-block;
+          text-align: center;
+        }
+        h1 {
+          font-size: 20px;
+        }
+        body {
+          margin: 0 30px;
+        }
+      }
     </style>
   </head>
   <body>
     <div class="center-box">
+      <div>
+        <img
+          src="https://i.ibb.co/BTr865F/Movie-quotes-Desktop-movie-quotes-bi-chat-quote-fill.png"
+          alt="Movie-quotes-Desktop-movie-quotes-bi-chat-quote-fill"
+        />
+      </div>
       <h1>MOVIE QUOTES</h1>
       <div class="describe">
         <h1>Hola {{$name}}</h1>
