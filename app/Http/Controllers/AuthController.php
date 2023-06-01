@@ -19,8 +19,9 @@ class AuthController extends Controller
 				'email' => ['The provided credentials are incorrect.'],
 			]);
 		}
+		auth()->login($user);
 
-		return $user->createToken($request->device_name)->plainTextToken;
+		return auth()->user();
 	}
 
 	public function logout(Request $request)

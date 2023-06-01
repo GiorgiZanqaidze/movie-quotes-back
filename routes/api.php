@@ -6,8 +6,8 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-	return $request->user();
+Route::get('/user', function (Request $request) {
+	return auth()->user();
 });
 
 Route::post('/register', [RegisterController::class, 'register'])->name('user.register');

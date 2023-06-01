@@ -22,7 +22,7 @@ class RegisterController extends Controller
 		return response()->json(['msg' => 'Registered Successfully']);
 	}
 
-	public function verifyAccount(String $token)
+	public function verifyAccount(String $token): JsonResponse
 	{
 		$verifyUser = User::where('remember_token', $token)->first();
 
@@ -30,6 +30,7 @@ class RegisterController extends Controller
 			if (!$verifyUser->email_verified_at) {
 				$verifyUser->email_verified_at = now();
 				$verifyUser->save();
+				return response()->json(['msg' => 'You are verified Successfully']);
 			}
 			return response()->json(['msg' => 'You are verified Successfully']);
 		}
