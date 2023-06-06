@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\GoogleController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
 	return $request->user();
 });
 
@@ -19,3 +20,5 @@ Route::post('/reset-password', [ResetPasswordController::class, 'postPassword'])
 Route::patch('/reset-password/{token}', [ResetPasswordController::class, 'update'])->name('password.update');
 
 Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
+
+Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');

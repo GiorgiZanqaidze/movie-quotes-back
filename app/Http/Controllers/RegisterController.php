@@ -6,6 +6,7 @@ use App\Http\Requests\StoreUserRequest;
 use App\Mail\VerifyEmail;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 
 class RegisterController extends Controller
@@ -30,8 +31,8 @@ class RegisterController extends Controller
 			if (!$verifyUser->email_verified_at) {
 				$verifyUser->email_verified_at = now();
 				$verifyUser->save();
-				return response()->json(['msg' => 'You are verified Successfully']);
 			}
+			Auth::login($verifyUser);
 			return response()->json(['msg' => 'You are verified Successfully']);
 		}
 

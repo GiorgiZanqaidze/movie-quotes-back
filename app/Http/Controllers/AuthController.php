@@ -3,30 +3,36 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginUserRequest;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
 	public function login(LoginUserRequest $request)
 	{
-		$user = User::where('email', $request->email)->first();
+		$input = $request->all();
 
-		if (!$user || !Hash::check($request->password, $user->password)) {
-			throw ValidationException::withMessages([
-				'email' => ['The provided credentials are incorrect.'],
-			]);
+		$credentials = $request->only('email', 'password');
+
+		$fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
+
+		if (Auth::attempt([$fieldType => $input['email'], 'password' => $input['password']], $request->has('remember'))) {
+			$user = auth()->user();
+			if (!$user->email_verified_at) {
+				return response()->json(['message' => 'You are not verified'], 403);
+			}
+			return auth()->user();
+		} else {
+			return response()->json(['message' => 'Invalid credentials'], 401);
 		}
-		auth()->login($user);
-
-		return auth()->user();
 	}
 
 	public function logout(Request $request)
 	{
-		$request->user()->currentAccessToken()->delete();
-		return response()->json(['msg' => 'Logout Successfull']);
+		$request->session()->invalidate();
+
+		$request->session()->regenerateToken();
+
+		return response()->json('Successfully logged out');
 	}
 }
