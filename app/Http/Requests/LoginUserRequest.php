@@ -17,6 +17,7 @@ class LoginUserRequest extends FormRequest
 			'email'                  => 'required|min:3',
 			'password'               => 'required',
 			'device_name'            => 'required',
+			'remember_me'            => 'boolean',
 		];
 
 		return $rules;
