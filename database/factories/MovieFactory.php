@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,6 +22,7 @@ class MovieFactory extends Factory
 			'year'        => $this->faker->date('Y'),
 			'director'    => $this->faker->name(),
 			'description' => $this->faker->text(),
+			'user_id'     => User::factory(),
 		];
 	}
 }

@@ -15,4 +15,9 @@ class Movie extends Model
 	{
 		return $this->hasMany(Quote::class);
 	}
+
+	public function author()
+	{
+		return $this->belongsTo(User::class, 'user_id');
+	}
 }

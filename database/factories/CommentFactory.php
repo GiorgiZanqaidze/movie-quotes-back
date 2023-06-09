@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Quote;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,8 +19,9 @@ class CommentFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'text'     => $this->faker->text(),
-			'quote_id' => Quote::factory(),
+			'text'        => $this->faker->text(),
+			'quote_id'    => Quote::factory(),
+			'user_id'     => User::factory(),
 		];
 	}
 }

@@ -9,7 +9,7 @@ class QuoteController extends Controller
 {
 	public function quotes(): JsonResponse
 	{
-		$quote = Quote::with(['movie', 'comments'])->get();
+		$quote = Quote::with(['movie', 'comments', 'author'])->get();
 
 		return response()->json($quote);
 	}

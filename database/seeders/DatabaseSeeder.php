@@ -28,12 +28,12 @@ class DatabaseSeeder extends Seeder
 
 		// \App\Models\Comment::factory(20)->create();
 
-		$postCount = 10; // Number of posts to create
+		$quotecount = 5; // Number of posts to create
 		$commentCount = 3; // Number of comments per post
 
-		Quote::factory($postCount)->create()->each(function ($post) use ($commentCount) {
+		Quote::factory($quotecount)->create()->each(function ($quote) use ($commentCount) {
 			Comment::factory($commentCount)->create([
-				'quote_id' => $post->id,
+				'quote_id' => $quote->id,
 			]);
 		});
 	}

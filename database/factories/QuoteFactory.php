@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Movie;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -20,6 +21,7 @@ class QuoteFactory extends Factory
 		return [
 			'name'        => $this->faker->sentence(),
 			'movie_id'    => Movie::factory(),
+			'user_id'     => User::factory(),
 		];
 	}
 }
