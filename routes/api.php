@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 
@@ -22,3 +23,5 @@ Route::patch('/reset-password/{token}', [ResetPasswordController::class, 'update
 Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
 
 Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');
+
+Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
