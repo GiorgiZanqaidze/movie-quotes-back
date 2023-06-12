@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
@@ -27,3 +28,5 @@ Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('
 Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
 
 Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quote');
+
+Route::get('/movies', [MovieController::class, 'movies'])->name('get.movies');

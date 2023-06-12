@@ -10,9 +10,9 @@ class QuoteController extends Controller
 {
 	public function quotes(): JsonResponse
 	{
-		$quote = Quote::with(['movie', 'comments.author', 'author', 'likes.author'])->latest()->get();
+		$quotes = Quote::with(['movie', 'comments.author', 'author', 'likes.author'])->latest()->get();
 
-		return response()->json($quote);
+		return response()->json($quotes);
 	}
 
 	public function store(StoreQuoteRequest $request)
