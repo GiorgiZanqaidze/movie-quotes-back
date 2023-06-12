@@ -4,12 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Translatable\HasTranslations;
 
 class Quote extends Model
 {
 	use HasFactory;
 
-	protected $fillable = ['name'];
+	use HasTranslations;
+
+	protected $fillable = ['name', 'movie_id', 'image', 'user_id'];
+
+	public $translatable = ['name'];
 
 	public function movie()
 	{

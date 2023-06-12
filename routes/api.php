@@ -25,3 +25,5 @@ Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'
 Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');
 
 Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
+
+Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quote');

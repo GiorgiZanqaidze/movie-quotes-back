@@ -19,7 +19,11 @@ class QuoteFactory extends Factory
 	public function definition(): array
 	{
 		return [
-			'name'        => $this->faker->sentence(),
+			'name' => [
+				'en' => $this->faker->sentence(),
+				'ka' => $this->faker->sentence(),
+			],
+			'image'       => 'https://p.bigstockphoto.com/eIdTXLbqQilMs9xbjvcs_bigstock-Aerial-View-Of-Sandy-Beach-Wit-256330393.jpg',
 			'movie_id'    => Movie::factory(),
 			'user_id'     => User::factory(),
 		];
