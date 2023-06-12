@@ -14,6 +14,8 @@ class Quote extends Model
 
 	protected $fillable = ['name', 'movie_id', 'image', 'user_id'];
 
+	protected $with = ['movie', 'comments.author', 'author', 'likes.author'];
+
 	public $translatable = ['name'];
 
 	public function movie()
