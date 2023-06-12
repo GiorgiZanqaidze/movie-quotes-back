@@ -23,6 +23,13 @@ class UserFactory extends Factory
 			'email_verified_at' => now(),
 			'password'          => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
 			'remember_token'    => Str::random(10),
+			'image'             => function () {
+				$storagePath = public_path('storage/images');
+				$files = glob($storagePath . '/*.*');
+				$randomFile = array_rand($files);
+				$imagePath = explode('storage/', $files[$randomFile])[1];
+				return $imagePath;
+			},
 		];
 	}
 

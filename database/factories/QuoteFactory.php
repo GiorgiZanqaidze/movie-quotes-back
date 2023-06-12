@@ -23,7 +23,13 @@ class QuoteFactory extends Factory
 				'en' => $this->faker->sentence(),
 				'ka' => $this->faker->sentence(),
 			],
-			'image'       => 'https://p.bigstockphoto.com/eIdTXLbqQilMs9xbjvcs_bigstock-Aerial-View-Of-Sandy-Beach-Wit-256330393.jpg',
+			'image'             => function () {
+				$storagePath = public_path('storage/images');
+				$files = glob($storagePath . '/*.*');
+				$randomFile = array_rand($files);
+				$imagePath = explode('storage/', $files[$randomFile])[1];
+				return $imagePath;
+			},
 			'movie_id'    => Movie::factory(),
 			'user_id'     => User::factory(),
 		];
