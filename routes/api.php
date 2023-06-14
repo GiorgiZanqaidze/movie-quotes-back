@@ -11,30 +11,28 @@ use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/user', function (Request $request) {
-	return $request->user();
-});
-
 Route::post('/register', [RegisterController::class, 'register'])->name('user.register');
-
 Route::post('/login', [AuthController::class, 'login'])->name('user.login');
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');
 
 Route::post('/reset-password', [ResetPasswordController::class, 'postPassword'])->name('password.mail');
 Route::patch('/reset-password/{token}', [ResetPasswordController::class, 'update'])->name('password.update');
-
 Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
 
-Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+	Route::get('/user', function (Request $request) {return $request->user(); });
 
-Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
+	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quote');
+	Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
 
-Route::get('/movies', [MovieController::class, 'movies'])->name('get.movies');
+	Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quote');
 
-Route::post('/comment/store', [CommentController::class, 'store'])->name('post.comment');
+	Route::get('/movies', [MovieController::class, 'movies'])->name('get.movies');
 
-Route::post('/like/quote', [LikeController::class, 'store'])->name('store.like');
+	Route::post('/comment/store', [CommentController::class, 'store'])->name('post.comment');
 
-Route::post('/dislike/quote', [LikeController::class, 'destroy'])->name('destroy.like');
+	Route::post('/like/quote', [LikeController::class, 'store'])->name('store.like');
+
+	Route::post('/dislike/quote', [LikeController::class, 'destroy'])->name('destroy.like');
+});
