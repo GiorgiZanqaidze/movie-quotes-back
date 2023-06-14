@@ -15,6 +15,6 @@ class CommentController extends Controller
 		$comment->quote_id = $request->quote_id;
 		$comment->text = $request->text;
 		$comment->save();
-		return response()->json(['quote'=> Quote::where('id', $comment->quote_id)->get()]);
+		return response()->json(['quote'=> Quote::where('id', $comment->quote_id)->first()]);
 	}
 }

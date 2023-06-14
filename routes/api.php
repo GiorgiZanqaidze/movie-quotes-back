@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\GoogleController;
+use App\Http\Controllers\LikeController;
 use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\RegisterController;
@@ -33,3 +34,7 @@ Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quot
 Route::get('/movies', [MovieController::class, 'movies'])->name('get.movies');
 
 Route::post('/comment/store', [CommentController::class, 'store'])->name('post.comment');
+
+Route::post('/like/quote', [LikeController::class, 'store'])->name('store.like');
+
+Route::post('/dislike/quote', [LikeController::class, 'destroy'])->name('destroy.like');

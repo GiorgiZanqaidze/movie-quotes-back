@@ -23,13 +23,7 @@ class DatabaseSeeder extends Seeder
 		//     'email' => 'test@example.com',
 		// ]);
 
-		// \App\Models\Movie::factory(10)->create();
-
-		// \App\Models\Quote::factory(2)->create();
-
-		// \App\Models\Like::factory(20)->create();
-
-		$quotecount = 5; // Number of posts to create
+		$quotecount = 15; // Number of posts to create
 		$commentCount = 3; // Number of comments per post
 
 		Quote::factory($quotecount)->create()->each(function ($quote) use ($commentCount) {
