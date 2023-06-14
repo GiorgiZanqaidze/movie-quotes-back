@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Storage;
 
 class GoogleController extends Controller
 {
@@ -22,11 +23,18 @@ class GoogleController extends Controller
 		$user = User::updateOrCreate([
 			'google_id'                       => $googleUser->id,
 		], [
-			'name'                 => $googleUser->name,
-			'email'                => $googleUser->email,
-			'google_token'         => $googleUser->token,
-			'google_refresh_token' => $googleUser->refreshToken,
+			'name'                            => $googleUser->name,
+			'email'                           => $googleUser->email,
+			'google_token'                    => $googleUser->token,
+			'google_refresh_token'            => $googleUser->refreshToken,
 		]);
+		$avatarUrl = $googleUser->avatar;
+		$imageContents = file_get_contents($avatarUrl);
+
+		$storagePath = 'images/' . $googleUser->getId() . '.jpg';
+		Storage::put($storagePath, $imageContents);
+
+		$user->image = $storagePath;
 
 		$user->email_verified_at = now();
 		$user->update();

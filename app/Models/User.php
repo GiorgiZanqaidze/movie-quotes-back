@@ -16,6 +16,8 @@ class User extends Authenticatable implements MustVerifyEmail
 
 	use Notifiable;
 
+	protected $with = ['likes'];
+
 	/**
 	 * The attributes that are mass assignable.
 	 *
@@ -47,4 +49,24 @@ class User extends Authenticatable implements MustVerifyEmail
 		'email_verified_at' => 'datetime',
 		'password'          => 'hashed',
 	];
+
+	public function movies()
+	{
+		return $this->hasMany(Movie::class);
+	}
+
+	public function quotes()
+	{
+		return $this->hasMany(Quote::class);
+	}
+
+	public function comments()
+	{
+		return $this->hasMany(Comment::class);
+	}
+
+	public function likes()
+	{
+		return $this->hasMany(Like::class);
+	}
 }
