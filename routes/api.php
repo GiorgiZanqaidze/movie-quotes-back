@@ -23,6 +23,8 @@ Route::post('/reset-password', [ResetPasswordController::class, 'postPassword'])
 Route::patch('/reset-password/{token}', [ResetPasswordController::class, 'update'])->name('password.update');
 Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
 
+Route::post('/resend/email/verify/{token}', [RegisterController::class, 'resendVerificationEmail'])->name('resend.email');
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
@@ -30,7 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 	Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quote');
 
-	Route::delete('/quote/destroy/{id}', [QuoteController::class, 'destroy'])->name('destroy.quote');
+	Route::delete('/quote/destroy/{quote}', [QuoteController::class, 'destroy'])->name('destroy.quote');
 
 	Route::post('/quote/update/{id}', [QuoteController::class, 'update'])->name('update.quote');
 

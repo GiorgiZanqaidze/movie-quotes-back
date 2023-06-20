@@ -16,8 +16,6 @@ class UpdateQuoteRequest extends FormRequest
 		$rules = [
 			'name_en'           => 'required|min:3|max:255',
 			'name_ka'           => 'required|min:3|max:255',
-			'movie_id'          => 'required|exists:movies,id',
-			'user_id'           => 'required|exists:users,id',
 		];
 
 		return $rules;

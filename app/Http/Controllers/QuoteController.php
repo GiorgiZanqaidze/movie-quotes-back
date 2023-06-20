@@ -43,10 +43,12 @@ class QuoteController extends Controller
 		return response()->json(new QuoteResource($newQuote));
 	}
 
-	public function destroy($id)
+	public function destroy(Quote $quote)
 	{
-		$quote = Quote::findOrFail($id);
+		$this->authorize('delete', $quote);
+
 		$quote->delete();
+
 		return response()->json(['response'=> 'Successfully Deleted']);
 	}
 
@@ -54,13 +56,13 @@ class QuoteController extends Controller
 	{
 		$request->validated();
 		$quote = Quote::findOrFail($id);
+		$this->authorize('update', $quote);
 		$quote->setTranslations('name', ['en' => $request->name_en, 'ka' => $request->name_ka]);
-		$quote->movie_id = $request->movie_id;
-		$quote->user_id = $request->user_id;
 		if ($request->file('image')) {
 			$quote->image = $request->file('image')->store('images');
 		}
 		$quote->update();
+
 		return new QuoteResource($quote);
 	}
 }
