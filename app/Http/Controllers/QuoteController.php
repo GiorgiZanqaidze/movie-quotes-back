@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreQuoteRequest;
 use App\Http\Requests\UpdateQuoteRequest;
+use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,7 +40,7 @@ class QuoteController extends Controller
 
 		$newQuote = Quote::where('id', $quote->id)->first();
 
-		return response()->json(['quote'=> $newQuote]);
+		return response()->json(new QuoteResource($newQuote));
 	}
 
 	public function destroy($id)
@@ -51,6 +52,7 @@ class QuoteController extends Controller
 
 	public function update($id, UpdateQuoteRequest $request)
 	{
+		$request->validated();
 		$quote = Quote::findOrFail($id);
 		$quote->setTranslations('name', ['en' => $request->name_en, 'ka' => $request->name_ka]);
 		$quote->movie_id = $request->movie_id;
@@ -59,6 +61,6 @@ class QuoteController extends Controller
 			$quote->image = $request->file('image')->store('images');
 		}
 		$quote->update();
-		return response()->json($id);
+		return new QuoteResource($quote);
 	}
 }
