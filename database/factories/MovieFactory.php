@@ -32,7 +32,6 @@ class MovieFactory extends Factory
 				'ka' => $this->faker->text(),
 			],
 			'user_id'           => User::factory(),
-			'genres'            => $this->faker->name(),
 			'image'             => function () {
 				$storagePath = public_path('storage/images');
 				$files = glob($storagePath . '/*.*');

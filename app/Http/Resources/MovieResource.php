@@ -23,6 +23,7 @@ class MovieResource extends JsonResource
 			'image'            => $this->image,
 			'quotes'           => $this->quotes,
 			'author'           => $this->author,
+			'genres'           => $this->genres,
 		];
 	}
 }
