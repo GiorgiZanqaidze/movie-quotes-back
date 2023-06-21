@@ -44,5 +44,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 	Route::get('/movies', [MovieController::class, 'movies'])->name('get.movies');
 
+	Route::post('/movie/store', [MovieController::class, 'store'])->name('store.movie');
+
 	Route::get('/movie/{id}', [MovieController::class, 'movie'])->name('get.movie');
 });

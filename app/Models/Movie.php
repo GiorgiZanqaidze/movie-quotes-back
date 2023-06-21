@@ -12,7 +12,7 @@ class Movie extends Model
 
 	use HasTranslations;
 
-	protected $fillable = ['title'];
+	protected $fillable = ['title', 'director', 'year', 'user_id'];
 
 	public $translatable = ['title', 'director', 'description'];
 

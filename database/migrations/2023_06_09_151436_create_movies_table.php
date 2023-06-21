@@ -12,11 +12,11 @@ return new class extends Migration {
 	{
 		Schema::create('movies', function (Blueprint $table) {
 			$table->id();
-			$table->json('title');
-			$table->string('year');
-			$table->json('director');
-			$table->json('description');
-			$table->string('genres');
+			$table->json('title')->nullable();
+			$table->integer('year');
+			$table->json('director')->nullable();
+			$table->json('description')->nullable();
+			$table->string('genres')->nullable();
 			$table->string('image')->nullable();
 			$table->foreignId('user_id')->constrained()->cascadeOnDelete();
 			$table->timestamps();
