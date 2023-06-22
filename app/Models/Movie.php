@@ -12,7 +12,7 @@ class Movie extends Model
 
 	use HasTranslations;
 
-	protected $fillable = ['title'];
+	protected $fillable = ['title', 'director', 'description', 'year', 'user_id'];
 
 	public $translatable = ['title', 'director', 'description'];
 
@@ -24,5 +24,10 @@ class Movie extends Model
 	public function author()
 	{
 		return $this->belongsTo(User::class, 'user_id');
+	}
+
+	public function genres()
+	{
+		return $this->belongsToMany(Genre::class);
 	}
 }

@@ -12,13 +12,8 @@ class LikeController extends Controller
 {
 	public function store(StoreLikeRequest $request): JsonResponse
 	{
-		$like = new Like();
-		$like->quote_id = $request->validated()['quote_id'];
-		$like->user_id = $request->validated()['user_id'];
-		$like->save();
-
+		$like = Like::create($request->validated());
 		$quote = Quote::where('id', $like->quote_id)->first();
-
 		return response()->json(['modified_quote'=> $quote]);
 	}
 

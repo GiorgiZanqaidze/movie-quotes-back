@@ -31,8 +31,14 @@ class MovieFactory extends Factory
 				'en' => $this->faker->text(),
 				'ka' => $this->faker->text(),
 			],
-			'user_id'     => User::factory(),
-			'genres'      => $this->faker->name(),
+			'user_id'           => User::factory(),
+			'image'             => function () {
+				$storagePath = public_path('storage/images');
+				$files = glob($storagePath . '/*.*');
+				$randomFile = array_rand($files);
+				$imagePath = explode('storage/', $files[$randomFile])[1];
+				return $imagePath;
+			},
 		];
 	}
 }
