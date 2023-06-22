@@ -11,6 +11,7 @@ use App\Http\Controllers\MovieController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\UpdateUserController;
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 	Route::get('/user', function (Request $request) {return $request->user(); });
@@ -27,6 +28,8 @@ Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'
 Route::post('/resend/email/verify/{token}', [RegisterController::class, 'resendVerificationEmail'])->name('resend.email');
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+	Route::post('/update/avatar/{user}', [UpdateUserController::class, 'updateAvatar'])->name('update.avatar');
+
 	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 	Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
