@@ -47,6 +47,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 	Route::post('/movie/store', [MovieController::class, 'store'])->name('store.movie');
 
+	Route::delete('/movie/destroy/{movie}', [MovieController::class, 'destroy'])->name('destroy.movie');
+
+	Route::post('/movie/update/{movie}', [MovieController::class, 'update'])->name('update.movie');
+
 	Route::get('/movie/{id}', [MovieController::class, 'movie'])->name('get.movie');
 
 	Route::get('/genres', [GenresController::class, 'genres'])->name('get.genres');
