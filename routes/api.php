@@ -30,6 +30,10 @@ Route::post('/resend/email/verify/{token}', [RegisterController::class, 'resendV
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 	Route::post('/update/avatar/{user}', [UpdateUserController::class, 'updateAvatar'])->name('update.avatar');
 
+	Route::post('/update/user/{user}', [UpdateUserController::class, 'updateUser'])->name('update.user');
+
+	Route::post('/update-email/{token}', [UpdateUserController::class, 'updateUserEmail'])->name('update.email');
+
 	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 	Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
