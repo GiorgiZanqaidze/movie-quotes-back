@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class QuoteResource extends JsonResource
+class CommentResource extends JsonResource
 {
 	/**
 	 * Transform the resource into an array.
@@ -16,12 +16,11 @@ class QuoteResource extends JsonResource
 	{
 		return [
 			'id'         => $this->id,
-			'name'       => $this->getTranslations('name'),
-			'image'      => $this->image,
-			'movie'      => new MovieResource($this->whenLoaded('movie')),
+			'text'       => $this->text,
+			'quote'      => new QuoteResource($this->whenLoaded('quote')),
 			'author'     => new UserResource($this->whenLoaded('author')),
-			'comments'   => CommentResource::collection($this->whenLoaded('comments')),
-			'likes'      => LikeResource::collection($this->whenLoaded('likes')),
+			'created_at' => $this->created_at,
+			'updated_at' => $this->updated_at,
 		];
 	}
 }

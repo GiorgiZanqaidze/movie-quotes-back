@@ -16,7 +16,7 @@ class User extends Authenticatable implements MustVerifyEmail
 
 	use Notifiable;
 
-	protected $with = ['likes', 'receivedNotifications'];
+	protected $with = ['likes', 'receivedNotifications', 'comments'];
 
 	/**
 	 * The attributes that are mass assignable.
