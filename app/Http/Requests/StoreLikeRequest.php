@@ -14,8 +14,9 @@ class StoreLikeRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'user_id'   => 'required',
-			'quote_id'  => 'required',
+			'user_id'     => 'required',
+			'quote_id'    => 'required',
+			'receiver_id' => 'required',
 		];
 
 		return $rules;
