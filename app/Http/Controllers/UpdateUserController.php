@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserAvatarRequest;
 use App\Mail\UpdateEmail;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -41,5 +42,15 @@ class UpdateUserController extends Controller
 		$user->update();
 
 		return response()->json($request->email, 200);
+	}
+
+	public function updatenotifications(): JsonResponse
+	{
+		$notifications = Notification::where('receiver_id', auth()->id());
+		$notifications->update(['read_at' => now()]);
+
+		$sortedNotifications = $notifications->orderBy('created_at', 'desc')->get();
+
+		return response()->json($sortedNotifications, 200);
 	}
 }
