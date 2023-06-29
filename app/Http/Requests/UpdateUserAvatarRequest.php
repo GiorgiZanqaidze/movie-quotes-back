@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLikeRequest extends FormRequest
+class UpdateUserAvatarRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -14,9 +14,7 @@ class StoreLikeRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'user_id'     => 'required',
-			'quote_id'    => 'required',
-			'receiver_id' => 'required',
+			'avatar'              => 'required|image',
 		];
 
 		return $rules;

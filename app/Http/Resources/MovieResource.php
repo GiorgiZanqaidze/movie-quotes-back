@@ -17,12 +17,12 @@ class MovieResource extends JsonResource
 		return [
 			'id'               => $this->id,
 			'title'            => $this->getTranslations('title'),
-			'year'             => $this->year,
 			'director'         => $this->getTranslations('director'),
 			'description'      => $this->getTranslations('description'),
+			'year'             => $this->year,
 			'image'            => $this->image,
-			'quotes'           => $this->quotes,
 			'author'           => $this->author,
+			'quotes'           => $this->quotes,
 			'genres'           => $this->genres,
 		];
 	}

@@ -16,25 +16,10 @@ class GenreFactory extends Factory
 	 */
 	public function definition(): array
 	{
-		$genres = [
-			'action'=> [
-				'en' => 'Action',
-				'ka' => 'მძაფრ სიუჟეტიანი',
-			],
-			'comedy' => [
-				'en' => 'Comedy',
-				'ka' => 'კომედია',
-			],
-			'drama'=> [
-				'en' => 'Drama',
-				'ka' => 'დრამა',
-			],
-		];
-
 		return [
-			'name' => [
-				'en' => 'Drama',
-				'ka' => 'დრამა',
+			'name'       => [
+				'en' => $this->faker->sentence(),
+				'ka' => $this->faker->sentence(),
 			],
 		];
 	}

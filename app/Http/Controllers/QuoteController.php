@@ -28,7 +28,9 @@ class QuoteController extends Controller
 			$quotes = Quote::latest()->paginate($perPage);
 		}
 
-		return response()->json($quotes);
+		$quotesCollection = QuoteResource::collection($quotes);
+
+		return response()->json($quotesCollection);
 	}
 
 	public function store(StoreQuoteRequest $request)
