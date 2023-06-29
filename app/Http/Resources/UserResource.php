@@ -21,8 +21,6 @@ class UserResource extends JsonResource
 			'image'                  => $this->image,
 			'movies'                 => MovieResource::collection($this->whenLoaded('movies')),
 			'quotes'                 => QuoteResource::collection($this->whenLoaded('quotes')),
-			'comments'               => CommentResource::collection($this->whenLoaded('comments')),
-			'likes'                  => LikeResource::collection($this->whenLoaded('likes')),
 			'sent_notifications'     => NotificationResource::collection($this->whenLoaded('sentNotifications')),
 			'received_notifications' => NotificationResource::collection($this->whenLoaded('receivedNotifications')),
 		];
