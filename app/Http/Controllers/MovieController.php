@@ -54,14 +54,18 @@ class MovieController extends Controller
 		$movie->setTranslations('title', ['en' => $request->title_en, 'ka' => $request->title_ka]);
 		$movie->setTranslations('description', ['en' => $request->description_en, 'ka' => $request->description_ka]);
 		$movie->setTranslations('director', ['en' => $request->director_en, 'ka' => $request->director_ka]);
+
 		if ($request->file('image')) {
 			$movie->image = $request->file('image')->store('images');
 		}
 
 		$genres = explode(',', $request->validated(['genres']));
+		$uniqueGenres = array_unique($genres);
 
-		$movie->genres()->attach($genres);
-		$movie->save();
-		return response()->json($movie);
+		$movie->genres()->sync($uniqueGenres);
+
+		$movie->update();
+
+		return response()->json($genres);
 	}
 }
