@@ -17,7 +17,7 @@ class RegisterController extends Controller
 		$data = $request->validated();
 
 		$createUser = User::create($data);
-		$createUser->token_expiry = Carbon::now()->addSeconds(2);
+		$createUser->token_expiry = Carbon::now()->addDay();
 		$createUser->remember_token = $request->remember_token;
 		$createUser->save();
 

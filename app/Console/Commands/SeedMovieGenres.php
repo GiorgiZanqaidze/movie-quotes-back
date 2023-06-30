@@ -1,16 +1,30 @@
 <?php
 
-namespace Database\Seeders;
+namespace App\Console\Commands;
 
 use App\Models\Genre;
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
 
-class GenreSeeder extends Seeder
+class SeedMovieGenres extends Command
 {
 	/**
-	 * Run the database seeds.
+	 * The name and signature of the console command.
+	 *
+	 * @var string
 	 */
-	public function run(): void
+	protected $signature = 'seed-movie-genres';
+
+	/**
+	 * The console command description.
+	 *
+	 * @var string
+	 */
+	protected $description = 'Command description';
+
+	/**
+	 * Execute the console command.
+	 */
+	public function handle()
 	{
 		$genres = [
 			'action'=> [
@@ -28,9 +42,6 @@ class GenreSeeder extends Seeder
 		];
 
 		foreach ($genres as $genreKey => $genre) {
-			Genre::factory()->create([
-				'name' => json_encode($genre),
-			]);
 			Genre::create([
 				'name' => [
 					'en' => $genre['en'],

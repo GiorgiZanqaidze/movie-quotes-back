@@ -17,9 +17,12 @@ class UpdateEmail extends Mailable
 	 */
 	protected $data;
 
-	public function __construct($data)
+	protected $email;
+
+	public function __construct($data, $email)
 	{
 		$this->data = $data;
+		$this->email = $email;
 	}
 
 	/**
@@ -57,7 +60,7 @@ class UpdateEmail extends Mailable
 		app()->setLocale(app()->getLocale());
 		return $this->view('mails.update-mail')
 		->with(['token' => $this->data->remember_token])
-		->with(['email' => $this->data->email])
+		->with(['email' => $this->email])
 		->with(['name'=> $this->data->name]);
 	}
 }
