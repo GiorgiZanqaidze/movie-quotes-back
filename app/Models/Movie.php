@@ -16,6 +16,8 @@ class Movie extends Model
 
 	public $translatable = ['title', 'director', 'description'];
 
+	protected $with = ['genres'];
+
 	public function quotes()
 	{
 		return $this->hasMany(Quote::class);

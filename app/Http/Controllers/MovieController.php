@@ -6,17 +6,32 @@ use App\Http\Requests\StoreMovieRequest;
 use App\Http\Requests\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
-	public function movies()
+	public function movies(Request $request): JsonResponse
 	{
+		$searchQuery = $request->input('query');
 		$user = Auth::user();
 
-		$movies = MovieResource::collection($user->movies);
+		$movies = $user->movies;
 
-		return response()->json(['data'=> $movies]);
+		if ($searchQuery && $searchQuery !== 'undefined') {
+			$movies = Movie::where(function ($query) use ($searchQuery) {
+				$query->where('title->en', 'like', '%' . $searchQuery . '%')
+					->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
+			})
+			->get();
+		} else {
+			$movies = $user->movies;
+		}
+
+		$movieCollection = MovieResource::collection($movies);
+
+		return response()->json(['data'=> $movieCollection]);
 	}
 
 	public function movie($id)
@@ -26,14 +41,14 @@ class MovieController extends Controller
 		return new MovieResource($movie);
 	}
 
-	public function destroy(Movie $movie)
+	public function destroy(Movie $movie): JsonResponse
 	{
 		$movie->delete();
 
 		return response()->json(['msg'=> 'Movie deleted successfully']);
 	}
 
-	public function store(StoreMovieRequest $request)
+	public function store(StoreMovieRequest $request): JsonResponse
 	{
 		$movie = Movie::create($request->validated());
 		$movie->setTranslations('title', ['en' => $request->title_en, 'ka' => $request->title_ka]);
@@ -49,7 +64,7 @@ class MovieController extends Controller
 		return response()->json($movie, 200);
 	}
 
-	public function update(Movie $movie, UpdateMovieRequest $request)
+	public function update(Movie $movie, UpdateMovieRequest $request): JsonResponse
 	{
 		$movie->setTranslations('title', ['en' => $request->title_en, 'ka' => $request->title_ka]);
 		$movie->setTranslations('description', ['en' => $request->description_en, 'ka' => $request->description_ka]);
@@ -60,12 +75,13 @@ class MovieController extends Controller
 		}
 
 		$genres = explode(',', $request->validated(['genres']));
+
 		$uniqueGenres = array_unique($genres);
 
 		$movie->genres()->sync($uniqueGenres);
 
 		$movie->update();
 
-		return response()->json($genres);
+		return response()->json($movie, 200);
 	}
 }

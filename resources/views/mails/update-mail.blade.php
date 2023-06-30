@@ -101,13 +101,13 @@
           Thanks for joining Movie quotes! We really appreciate it. Please click
           the button below to verify your account:
         </p>
-        <a href="{{ env('BASE_URL') }}/user-profile?update_email={{$email}}&email_verify_token={{$token}}">Verify account</a>
+        <a href="{{ env('BASE_URL') }}/user-profile?update_email={{$email}}&email_verify_token={{$token}}">Update account</a>
         <p>
           If clicking doesn't work, you can try copying and pasting it to your
           browser:
         </p>
         <p>
-          {{ env('BASE_URL') }}/user-profile?update_email={{$email}}
+          {{ env('BASE_URL') }}/user-profile?update_email={{$email}}&email_verify_token={{$token}}
         </p>
         <p>
           If you have any problems, please contact us: support@moviequotes.ge
