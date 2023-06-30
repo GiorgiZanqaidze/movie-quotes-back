@@ -52,7 +52,9 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 	Route::post('/dislike/quote', [LikeController::class, 'destroy'])->name('destroy.like');
 
-	Route::get('/movies', [MovieController::class, 'movies'])->name('get.movies');
+	Route::get('/user-movies', [MovieController::class, 'movies'])->name('get.movies');
+
+	Route::get('/all-movies', [MovieController::class, 'allMovies'])->name('get.addMovies');
 
 	Route::post('/movie/store', [MovieController::class, 'store'])->name('store.movie');
 

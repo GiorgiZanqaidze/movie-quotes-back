@@ -12,6 +12,15 @@ use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
 {
+	public function allMovies()
+	{
+		$movies = Movie::all();
+
+		$movieCollection = MovieResource::collection($movies);
+
+		return response()->json(['data'=> $movieCollection]);
+	}
+
 	public function movies(Request $request): JsonResponse
 	{
 		$searchQuery = $request->input('query');
@@ -20,11 +29,8 @@ class MovieController extends Controller
 		$movies = $user->movies;
 
 		if ($searchQuery && $searchQuery !== 'undefined') {
-			$movies = Movie::where(function ($query) use ($searchQuery) {
-				$query->where('title->en', 'like', '%' . $searchQuery . '%')
+			$movies = $user->movies->where('title->en', 'like', '%' . $searchQuery . '%')
 					->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
-			})
-			->get();
 		} else {
 			$movies = $user->movies;
 		}

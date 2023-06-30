@@ -25,14 +25,8 @@ class UpdateUserController extends Controller
 		$user->name = $request->name;
 		$user->password = $request->password;
 
-		// $userData = [
-		// 	'remember_token' => $user->remember_token,
-		// 	'email'          => $request->email,
-		// 	'name'           => $user->name,
-		// ];
-
 		if ($request->email !== $user->email) {
-			Mail::to("$request->email")->send(new UpdateEmail($user));
+			Mail::to("$request->email")->send(new UpdateEmail($user, $request->email));
 		}
 
 		$user->update();
