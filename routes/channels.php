@@ -13,8 +13,7 @@ use Illuminate\Support\Facades\Broadcast;
 |
 */
 
-// BAD
-Broadcast::channel('greetings.{userId}', function ($user, $userId) {
+Broadcast::channel('notification.{userId}', function ($user, $userId) {
 	return $user->id === (int)$userId;
 });
 

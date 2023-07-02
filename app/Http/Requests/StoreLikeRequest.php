@@ -15,7 +15,7 @@ class StoreLikeRequest extends FormRequest
 	{
 		$rules = [
 			'user_id'     => 'required',
-			'quote_id'    => 'required',
+			'quote_id'    => 'required|unique:likes,quote_id,NULL,id,user_id,' . auth()->id(),
 			'receiver_id' => 'required',
 		];
 

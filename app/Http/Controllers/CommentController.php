@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\PostComment;
 use App\Http\Requests\StoreCommentRequest;
-use App\Http\Resources\UserResource;
+use App\Http\Resources\CommentResource;
+use App\Http\Resources\UserBasicResources;
 use App\Models\Comment;
 use App\Models\Notification;
 
@@ -21,9 +22,11 @@ class CommentController extends Controller
 			$notification->type = 'comment';
 			$notification->save();
 		}
-		$author = new UserResource($comment->author);
+		$author = new UserBasicResources($comment->author);
 
-		event(new PostComment($comment, $author));
+		$commentResource = new CommentResource($comment);
+
+		event(new PostComment($commentResource, $author));
 
 		return response()->json(['msg'=> 'Comment was successfully added'], 200);
 	}
