@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostComment;
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Notification;
 use App\Models\Quote;
@@ -20,6 +22,10 @@ class CommentController extends Controller
 			$notification->type = 'comment';
 			$notification->save();
 		}
+		$author = new UserResource($comment->author);
+
+		event(new PostComment($comment, $author));
+
 		return response()->json(['quote'=> Quote::where('id', $comment->quote_id)->first()]);
 	}
 }
