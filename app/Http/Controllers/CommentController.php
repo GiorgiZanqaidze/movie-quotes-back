@@ -7,7 +7,6 @@ use App\Http\Requests\StoreCommentRequest;
 use App\Http\Resources\UserResource;
 use App\Models\Comment;
 use App\Models\Notification;
-use App\Models\Quote;
 
 class CommentController extends Controller
 {
@@ -26,6 +25,6 @@ class CommentController extends Controller
 
 		event(new PostComment($comment, $author));
 
-		return response()->json(['quote'=> Quote::where('id', $comment->quote_id)->first()]);
+		return response()->json(['msg'=> 'Comment was successfully added'], 200);
 	}
 }
