@@ -4,29 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Events\PostComment;
 use App\Http\Requests\StoreCommentRequest;
+use App\Http\Requests\StoreNotification;
 use App\Http\Resources\CommentResource;
-use App\Http\Resources\UserBasicResources;
 use App\Models\Comment;
 use App\Models\Notification;
 
 class CommentController extends Controller
 {
-	public function store(StoreCommentRequest $request)
+	public function store(StoreCommentRequest $request, StoreNotification $notificationRequest)
 	{
 		$comment = Comment::create($request->validated());
 
 		if ($request->user_id !== $request->receiver_id) {
-			$notification = new Notification();
-			$notification->sender_id = $request->user_id;
-			$notification->receiver_id = $request->receiver_id;
-			$notification->type = 'comment';
-			$notification->save();
+			Notification::create($notificationRequest->validated());
 		}
-		$author = new UserBasicResources($comment->author);
 
-		$commentResource = new CommentResource($comment);
+		$commentResource = new CommentResource($comment->load('author'));
 
-		event(new PostComment($commentResource, $author));
+		event(new PostComment($commentResource));
 
 		return response()->json(['msg'=> 'Comment was successfully added'], 200);
 	}

@@ -6,26 +6,21 @@ use App\Events\PostDislike;
 use App\Events\PostLike;
 use App\Events\SendNotifications;
 use App\Http\Requests\StoreLikeRequest;
+use App\Http\Requests\StoreNotification;
 use App\Http\Resources\LikeBasicResources;
-use App\Http\Resources\UserBasicResources;
 use App\Models\Like;
 use App\Models\Notification;
-use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-	public function store(StoreLikeRequest $request): JsonResponse
+	public function store(StoreLikeRequest $request, StoreNotification $notificationRequest): JsonResponse
 	{
 		$like = Like::create($request->validated());
 
 		if ($request->user_id !== $request->receiver_id) {
-			$notification = new Notification();
-			$notification->sender_id = $request->user_id;
-			$notification->receiver_id = $request->receiver_id;
-			$notification->type = 'like';
-			$notification->save();
+			Notification::create($notificationRequest->validated());
 
 			$notification = (object)[
 				'to'   => $request->receiver_id,
@@ -35,10 +30,9 @@ class LikeController extends Controller
 			event(new SendNotifications($notification));
 		}
 
-		$author = new UserBasicResources($like->author);
-		$likeResourse = new LikeBasicResources($like);
+		$likeResourse = new LikeBasicResources($like->load('author'));
 
-		event(new PostLike($likeResourse, $author));
+		event(new PostLike($likeResourse));
 
 		return response()->json(['msg'=> 'Quote was successfully liked'], 200);
 	}
@@ -49,15 +43,12 @@ class LikeController extends Controller
 			->where('quote_id', $request->quote_id)
 			->first();
 
-		$author = new UserBasicResources($like->author);
+		$likeResourse = new LikeBasicResources($like->load('author'));
 
-		$likeResourse = new LikeBasicResources($like);
-
-		event(new PostDislike($likeResourse, $author));
+		event(new PostDislike($likeResourse));
 
 		$like->delete();
 
-		$quote = Quote::where('id', $like->quote_id)->first();
 		return response()->json(['msg'=> 'Quote was successfully disliked'], 200);
 	}
 }

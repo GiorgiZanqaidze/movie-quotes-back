@@ -14,15 +14,12 @@ class PostComment implements ShouldBroadcast
 
 	public $comment;
 
-	public $author;
-
 	/**
 	 * Create a new event instance.
 	 */
-	public function __construct($comment, $author)
+	public function __construct($comment)
 	{
 		$this->comment = $comment;
-		$this->author = $author;
 	}
 
 	/**

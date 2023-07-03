@@ -14,14 +14,11 @@ class PostDislike implements ShouldBroadcast
 
 	public $like;
 
-	public $author;
-
 	/**
 	 * Create a new event instance.
 	 */
-	public function __construct($like, $author)
+	public function __construct($like)
 	{
-		$this->author = $author;
 		$this->like = $like;
 	}
 

@@ -14,15 +14,12 @@ class PostLike implements ShouldBroadcast
 
 	public $like;
 
-	public $author;
-
 	/**
 	 * Create a new event instance.
 	 */
-	public function __construct($like, $author)
+	public function __construct($like)
 	{
 		$this->like = $like;
-		$this->author = $author;
 	}
 
 	/**
