@@ -9,11 +9,19 @@ class UpdateUserRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'name'                  => 'min:3|max:15|regex:/^[a-z0-9]+$/',
-			'email'                 => 'email|max:255|unique:users,email',
-			'password'              => 'confirmed|min:8|max:15|regex:/^[a-z0-9]+$/',
+			'email' => 'required|exists:users,email',
 		];
 
 		return $rules;
+	}
+
+	public function messages()
+	{
+		return [
+			'email.exists'   => json_encode([
+				'en' => 'The mail is not registered',
+				'ka' => 'ელ. ფოსტა არ არსებობს.',
+			]),
+		];
 	}
 }

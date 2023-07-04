@@ -29,8 +29,12 @@ class MovieController extends Controller
 		$movies = $user->movies;
 
 		if ($searchQuery && $searchQuery !== 'undefined') {
-			$movies = $user->movies->where('title->en', 'like', '%' . $searchQuery . '%')
+			$movies = $user->movies()
+			->where(function ($query) use ($searchQuery) {
+				$query->where('title->en', 'like', '%' . $searchQuery . '%')
 					->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
+			})
+			->get();
 		} else {
 			$movies = $user->movies;
 		}

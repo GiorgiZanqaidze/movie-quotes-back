@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\PostComment;
+use App\Events\SendNotifications;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreNotification;
 use App\Http\Resources\CommentResource;
@@ -17,6 +18,13 @@ class CommentController extends Controller
 
 		if ($request->user_id !== $request->receiver_id) {
 			Notification::create($notificationRequest->validated());
+
+			$notification = (object)[
+				'to'   => $request->receiver_id,
+				'from' => auth('sanctum')->user(),
+			];
+
+			event(new SendNotifications($notification));
 		}
 
 		$commentResource = new CommentResource($comment->load('author'));

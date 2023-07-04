@@ -12,18 +12,22 @@ class AuthController extends Controller
 	{
 		$input = $request->all();
 
-		$credentials = $request->only('email', 'password');
-
 		$fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
 		if (Auth::attempt([$fieldType => $input['email'], 'password' => $input['password']], $request->has('remember'))) {
 			$user = auth()->user();
 			if (!$user->email_verified_at) {
-				return response()->json(['message' => 'You are not verified'], 403);
+				return response()->json(['message' => json_encode([
+					'en' => 'You are not verified',
+					'ka' => 'არ ხარ ვერიფიცირებული',
+				]), ], 403);
 			}
 			return auth()->user();
 		} else {
-			return response()->json(['message' => 'Invalid credentials'], 401);
+			return response()->json(['message' => json_encode([
+				'en' => 'Invalida Credentials',
+				'ka' => 'არასწორი მონაცემები',
+			]), ], 401);
 		}
 	}
 
