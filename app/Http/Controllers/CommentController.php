@@ -7,21 +7,27 @@ use App\Events\SendNotifications;
 use App\Http\Requests\StoreCommentRequest;
 use App\Http\Requests\StoreNotification;
 use App\Http\Resources\CommentResource;
+use App\Http\Resources\UserBasicResources;
 use App\Models\Comment;
 use App\Models\Notification;
+use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
-	public function store(StoreCommentRequest $request, StoreNotification $notificationRequest)
+	public function store(StoreCommentRequest $request, StoreNotification $notificationRequest): JsonResponse
 	{
 		$comment = Comment::create($request->validated());
 
 		if ($request->user_id !== $request->receiver_id) {
-			Notification::create($notificationRequest->validated());
+			$notifiction = Notification::create($notificationRequest->validated());
+
+			$authUser = new UserBasicResources(auth('sanctum')->user());
 
 			$notification = (object)[
-				'to'   => $request->receiver_id,
-				'from' => auth('sanctum')->user(),
+				'to'         => $request->receiver_id,
+				'from'       => $authUser,
+				'type'       => 'comment',
+				'created_at' => $notifiction->created_at,
 			];
 
 			event(new SendNotifications($notification));

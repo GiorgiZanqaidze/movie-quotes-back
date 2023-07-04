@@ -8,6 +8,7 @@ use App\Events\SendNotifications;
 use App\Http\Requests\StoreLikeRequest;
 use App\Http\Requests\StoreNotification;
 use App\Http\Resources\LikeBasicResources;
+use App\Http\Resources\UserBasicResources;
 use App\Models\Like;
 use App\Models\Notification;
 use Illuminate\Http\JsonResponse;
@@ -20,11 +21,15 @@ class LikeController extends Controller
 		$like = Like::create($request->validated());
 
 		if ($request->user_id !== $request->receiver_id) {
-			Notification::create($notificationRequest->validated());
+			$notifiction = Notification::create($notificationRequest->validated());
+
+			$authUser = new UserBasicResources(auth('sanctum')->user());
 
 			$notification = (object)[
-				'to'   => $request->receiver_id,
-				'from' => auth('sanctum')->user(),
+				'to'         => $request->receiver_id,
+				'from'       => $authUser,
+				'type'       => 'like',
+				'created_at' => $notifiction->created_at,
 			];
 
 			event(new SendNotifications($notification));

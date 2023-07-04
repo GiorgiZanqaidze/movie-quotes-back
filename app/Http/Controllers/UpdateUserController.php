@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UpdateUserAvatarRequest;
-use App\Http\Requests\UpdateUserCredentialsRequest;
 use App\Mail\UpdateEmail;
 use App\Models\Notification;
 use App\Models\User;
@@ -21,14 +20,12 @@ class UpdateUserController extends Controller
 		return response()->json($user, 200);
 	}
 
-	public function updateUser(User $user, UpdateUserCredentialsRequest $request): JsonResponse
+	public function updateUser(User $user, Request $request): JsonResponse
 	{
-		$validatedData = $request->validated();
+		$user->name = $request->name;
+		$user->password = $request->password;
 
-		$user->name = $validatedData['name'];
-		$user->password = $validatedData['password'];
-
-		$validEmail = $validatedData['email'];
+		$validEmail = $request->email;
 
 		if ($validEmail !== $user->email) {
 			Mail::to("$validEmail")->send(new UpdateEmail($user, $validEmail));
