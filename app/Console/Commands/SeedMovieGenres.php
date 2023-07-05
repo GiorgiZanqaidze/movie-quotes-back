@@ -27,9 +27,9 @@ class SeedMovieGenres extends Command
 	public function handle()
 	{
 		$genres = [
-			'action'=> [
-				'en' => 'Action',
-				'ka' => 'მძაფრ სიუჟეტიანი',
+			'melodramatic'=> [
+				'en' => 'Melodramatic',
+				'ka' => 'მელოდრამა',
 			],
 			'comedy' => [
 				'en' => 'Comedy',

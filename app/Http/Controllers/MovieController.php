@@ -92,6 +92,8 @@ class MovieController extends Controller
 
 		$movie->update();
 
-		return response()->json($movie, 200);
+		$movieResources = new MovieResource($movie->load('quotes'));
+
+		return response()->json($movieResources, 200);
 	}
 }
