@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLikeRequest extends FormRequest
+class UpdateUserCredentialsRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -14,9 +14,9 @@ class StoreLikeRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'user_id'     => 'required',
-			'quote_id'    => 'required|unique:likes,quote_id,NULL,id,user_id,' . auth()->id(),
-			'receiver_id' => 'required',
+			'name'                  => 'min:3|regex:/^[a-z0-9]+$/',
+			'email'                 => 'email',
+			'password'              => 'confirmed|min:8|max:15|regex:/^[a-z0-9]+$/',
 		];
 
 		return $rules;

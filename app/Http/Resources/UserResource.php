@@ -20,7 +20,7 @@ class UserResource extends JsonResource
 			'email'                  => $this->email,
 			'image'                  => $this->image,
 			'movies'                 => MovieResource::collection($this->whenLoaded('movies')),
-			'quotes'                 => QuoteResource::collection($this->whenLoaded('quotes')),
+			'quotes'                 => QuoteBasicResources::collection($this->whenLoaded('quotes')),
 			'sent_notifications'     => NotificationResource::collection($this->whenLoaded('sentNotifications')),
 			'received_notifications' => NotificationResource::collection($this->whenLoaded('receivedNotifications')),
 		];

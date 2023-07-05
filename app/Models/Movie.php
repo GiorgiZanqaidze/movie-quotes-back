@@ -16,7 +16,7 @@ class Movie extends Model
 
 	public $translatable = ['title', 'director', 'description'];
 
-	protected $with = ['genres'];
+	protected $with = ['genres', 'author'];
 
 	public function quotes()
 	{

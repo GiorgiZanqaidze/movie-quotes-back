@@ -25,8 +25,10 @@ class UpdateUserController extends Controller
 		$user->name = $request->name;
 		$user->password = $request->password;
 
-		if ($request->email !== $user->email) {
-			Mail::to("$request->email")->send(new UpdateEmail($user, $request->email));
+		$validEmail = $request->email;
+
+		if ($validEmail !== $user->email) {
+			Mail::to("$validEmail")->send(new UpdateEmail($user, $validEmail));
 		}
 
 		$user->update();

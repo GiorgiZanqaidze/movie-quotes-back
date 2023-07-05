@@ -36,6 +36,10 @@ class StoreUserRequest extends FormRequest
 		return [
 			'name.regex'     => 'The name must only contain lower case letters and numbers.',
 			'password.regex' => 'The password must only contain lower case letters and numbers.',
+			'email.unique'   => json_encode([
+				'en' => 'The email has already been taken.',
+				'ka' => 'ელ. ფოსტა უკვე არსებობს.',
+			]),
 		];
 	}
 }

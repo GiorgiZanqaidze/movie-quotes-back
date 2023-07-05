@@ -2,29 +2,44 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostDislike;
+use App\Events\PostLike;
+use App\Events\SendNotifications;
 use App\Http\Requests\StoreLikeRequest;
+use App\Http\Requests\StoreNotification;
+use App\Http\Resources\LikeBasicResources;
+use App\Http\Resources\UserBasicResources;
 use App\Models\Like;
 use App\Models\Notification;
-use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-	public function store(StoreLikeRequest $request): JsonResponse
+	public function store(StoreLikeRequest $request, StoreNotification $notificationRequest): JsonResponse
 	{
 		$like = Like::create($request->validated());
-		$quote = Quote::where('id', $like->quote_id)->first();
 
 		if ($request->user_id !== $request->receiver_id) {
-			$notification = new Notification();
-			$notification->sender_id = $request->user_id;
-			$notification->receiver_id = $request->receiver_id;
-			$notification->type = 'like';
-			$notification->save();
+			$notifiction = Notification::create($notificationRequest->validated());
+
+			$authUser = new UserBasicResources(auth('sanctum')->user());
+
+			$notification = (object)[
+				'to'         => $request->receiver_id,
+				'from'       => $authUser,
+				'type'       => 'like',
+				'created_at' => $notifiction->created_at,
+			];
+
+			event(new SendNotifications($notification));
 		}
 
-		return response()->json(['modified_quote'=> $quote]);
+		$likeResourse = new LikeBasicResources($like->load('author'));
+
+		event(new PostLike($likeResourse));
+
+		return response()->json(['msg'=> 'Quote was successfully liked'], 200);
 	}
 
 	public function destroy(Request $request): JsonResponse
@@ -32,9 +47,13 @@ class LikeController extends Controller
 		$like = Like::where('user_id', $request->user_id)
 			->where('quote_id', $request->quote_id)
 			->first();
+
+		$likeResourse = new LikeBasicResources($like->load('author'));
+
+		event(new PostDislike($likeResourse));
+
 		$like->delete();
 
-		$quote = Quote::where('id', $like->quote_id)->first();
-		return response()->json(['modified_quote'=> $quote]);
+		return response()->json(['msg'=> 'Quote was successfully disliked'], 200);
 	}
 }

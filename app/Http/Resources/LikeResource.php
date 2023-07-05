@@ -16,7 +16,7 @@ class LikeResource extends JsonResource
 	{
 		return [
 			'id'         => $this->id,
-			'author'     => new UserResource($this->whenLoaded('author')),
+			'author'     => new UserBasicResources($this->whenLoaded('author')),
 			'quote'      => new QuoteResource($this->whenLoaded('quote')),
 		];
 	}

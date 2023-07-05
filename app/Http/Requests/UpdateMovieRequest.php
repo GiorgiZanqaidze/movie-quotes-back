@@ -14,14 +14,14 @@ class UpdateMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'title_en'           => '|min:3|max:255',
-			'title_ka'           => '|min:3|max:255',
+			'title_en'           => 'min:3|max:255',
+			'title_ka'           => 'min:3|max:255',
 			'director_en'        => 'min:3',
 			'director_ka'        => 'min:3',
 			'description_en'     => 'min:3',
 			'description_ka'     => 'min:3',
-			'year'               => '|integer',
-			'user_id'            => '|exists:users,id',
+			'year'               => 'integer',
+			'user_id'            => 'exists:users,id',
 			'genres'             => '',
 		];
 
