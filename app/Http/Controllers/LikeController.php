@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Events\PostDislike;
 use App\Events\PostLike;
 use App\Events\SendNotifications;
-use App\Http\Requests\StoreLikeRequest;
-use App\Http\Requests\StoreNotification;
+use App\Http\Requests\Like\StoreLikeRequest as LikeStoreLikeRequest;
+use App\Http\Requests\Notification\StoreNotificationRequest;
 use App\Http\Resources\LikeBasicResources;
 use App\Http\Resources\UserBasicResources;
 use App\Models\Like;
@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 
 class LikeController extends Controller
 {
-	public function store(StoreLikeRequest $request, StoreNotification $notificationRequest): JsonResponse
+	public function store(LikeStoreLikeRequest $request, StoreNotificationRequest $notificationRequest): JsonResponse
 	{
 		$like = Like::create($request->validated());
 

@@ -32,7 +32,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
 	Route::post('/update/user/{user}', [UpdateUserController::class, 'updateUser'])->name('update.user');
 
-	Route::get('/notifications/mark-as-read', [UpdateUserController::class, 'updatenotifications'])->name('update.notifications');
+	Route::get('/notifications/mark-as-read', [UpdateUserController::class, 'updateNotifications'])->name('update.notifications');
 
 	Route::post('/update-email/{token}', [UpdateUserController::class, 'updateUserEmail'])->name('update.email');
 

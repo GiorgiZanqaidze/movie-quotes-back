@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\User\LoginUserRequest as UserLoginUserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-	public function login(LoginUserRequest $request)
+	public function login(UserLoginUserRequest $request)
 	{
 		$input = $request->all();
 

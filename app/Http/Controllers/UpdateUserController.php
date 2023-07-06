@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UpdateUserAvatarRequest;
+use App\Http\Requests\User\UpdateUserAvatarRequest as UserUpdateUserAvatarRequest;
 use App\Mail\UpdateEmail;
 use App\Models\Notification;
 use App\Models\User;
@@ -12,7 +12,7 @@ use Illuminate\Http\JsonResponse;
 
 class UpdateUserController extends Controller
 {
-	public function updateAvatar(User $user, UpdateUserAvatarRequest $request): JsonResponse
+	public function updateAvatar(User $user, UserUpdateUserAvatarRequest $request): JsonResponse
 	{
 		$request->validated();
 		$user->image = $request->file('avatar')->store('images');
@@ -46,7 +46,7 @@ class UpdateUserController extends Controller
 		return response()->json($request->email, 200);
 	}
 
-	public function updatenotifications(): JsonResponse
+	public function updateNotifications(): JsonResponse
 	{
 		$notifications = Notification::where('receiver_id', auth()->id());
 		$notifications->update(['read_at' => now()]);

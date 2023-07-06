@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Movie;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -14,15 +14,15 @@ class UpdateMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'title_en'           => 'min:3|max:255',
-			'title_ka'           => 'min:3|max:255',
-			'director_en'        => 'min:3',
-			'director_ka'        => 'min:3',
-			'description_en'     => 'min:3',
-			'description_ka'     => 'min:3',
-			'year'               => 'integer',
+			'title_en'           => 'required',
+			'title_ka'           => 'required',
+			'director_en'        => 'required',
+			'director_ka'        => 'required',
+			'description_en'     => 'required',
+			'description_ka'     => 'required',
+			'year'               => 'required|integer',
 			'user_id'            => 'exists:users,id',
-			'genres'             => '',
+			'genres'             => 'required',
 		];
 
 		return $rules;

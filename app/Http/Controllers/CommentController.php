@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Events\PostComment;
 use App\Events\SendNotifications;
-use App\Http\Requests\StoreCommentRequest;
-use App\Http\Requests\StoreNotification;
+use App\Http\Requests\Comment\StoreCommentRequest;
+use App\Http\Requests\Notification\StoreNotificationRequest;
 use App\Http\Resources\CommentResource;
 use App\Http\Resources\UserBasicResources;
 use App\Models\Comment;
@@ -14,7 +14,7 @@ use Illuminate\Http\JsonResponse;
 
 class CommentController extends Controller
 {
-	public function store(StoreCommentRequest $request, StoreNotification $notificationRequest): JsonResponse
+	public function store(StoreCommentRequest $request, StoreNotificationRequest $notificationRequest): JsonResponse
 	{
 		$comment = Comment::create($request->validated());
 

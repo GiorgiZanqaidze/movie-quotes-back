@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Notification;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCommentRequest extends FormRequest
+class StoreNotificationRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -14,9 +14,9 @@ class StoreCommentRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'text'                  => 'required',
-			'user_id'               => 'required',
-			'quote_id'              => 'required',
+			'sender_id'                  => 'required',
+			'receiver_id'                => 'required',
+			'type'                       => 'required',
 		];
 
 		return $rules;

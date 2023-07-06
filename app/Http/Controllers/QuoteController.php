@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreQuoteRequest;
-use App\Http\Requests\UpdateQuoteRequest;
+use App\Http\Requests\Quote\StoreQuoteRequest as QuoteStoreQuoteRequest;
+use App\Http\Requests\Quote\UpdateQuoteRequest as QuoteUpdateQuoteRequest;
 use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
@@ -33,7 +33,7 @@ class QuoteController extends Controller
 		return response()->json($quotesCollection);
 	}
 
-	public function store(StoreQuoteRequest $request)
+	public function store(QuoteStoreQuoteRequest $request)
 	{
 		$quote = Quote::create($request->validated());
 		$quote->setTranslations('name', ['en' => $request->name_en, 'ka' => $request->name_ka]);
@@ -54,7 +54,7 @@ class QuoteController extends Controller
 		return response()->json(['response'=> 'Successfully Deleted']);
 	}
 
-	public function update($id, UpdateQuoteRequest $request)
+	public function update($id, QuoteUpdateQuoteRequest $request)
 	{
 		$request->validated();
 		$quote = Quote::findOrFail($id);
