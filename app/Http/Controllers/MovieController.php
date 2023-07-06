@@ -53,6 +53,8 @@ class MovieController extends Controller
 
 	public function destroy(Movie $movie): JsonResponse
 	{
+		$this->authorize('delete', $movie);
+
 		$movie->delete();
 
 		return response()->json(['msg'=> 'Movie deleted successfully']);
