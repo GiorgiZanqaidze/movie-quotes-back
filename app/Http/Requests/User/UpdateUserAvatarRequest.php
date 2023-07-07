@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateQuoteRequest extends FormRequest
+class UpdateUserAvatarRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -14,8 +14,7 @@ class UpdateQuoteRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'name_en'           => 'required|min:3|max:255',
-			'name_ka'           => 'required|min:3|max:255',
+			'avatar'              => 'required|image',
 		];
 
 		return $rules;

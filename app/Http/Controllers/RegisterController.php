@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\User\StoreUserRequest;
 use App\Mail\VerifyEmail;
 use App\Models\User;
 use Carbon\Carbon;

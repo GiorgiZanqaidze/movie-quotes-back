@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreLikeRequest extends FormRequest
+class LoginUserRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -14,9 +14,10 @@ class StoreLikeRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'user_id'     => 'required',
-			'quote_id'    => 'required|unique:likes,quote_id,NULL,id,user_id,' . auth()->id(),
-			'receiver_id' => 'required',
+			'email'                  => 'required|min:3',
+			'password'               => 'required',
+			'device_name'            => 'required',
+			'remember_me'            => 'boolean',
 		];
 
 		return $rules;

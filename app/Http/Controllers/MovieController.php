@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreMovieRequest;
-use App\Http\Requests\UpdateMovieRequest;
+use App\Http\Requests\Movie\StoreMovieRequest;
+use App\Http\Requests\Movie\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
@@ -53,6 +53,8 @@ class MovieController extends Controller
 
 	public function destroy(Movie $movie): JsonResponse
 	{
+		$this->authorize('delete', $movie);
+
 		$movie->delete();
 
 		return response()->json(['msg'=> 'Movie deleted successfully']);

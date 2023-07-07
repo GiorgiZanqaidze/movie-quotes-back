@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Like;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateUserAvatarRequest extends FormRequest
+class StoreLikeRequest extends FormRequest
 {
 	/**
 	 * Get the validation rules that apply to the request.
@@ -14,7 +14,9 @@ class UpdateUserAvatarRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'avatar'              => 'required|image',
+			'user_id'     => 'required',
+			'quote_id'    => 'required|unique:likes,quote_id,NULL,id,user_id,' . auth()->id(),
+			'receiver_id' => 'required',
 		];
 
 		return $rules;
