@@ -17,7 +17,6 @@ return new class extends Migration {
 			$table->string('type');
 			$table->timestamp('read_at')->nullable();
 			$table->timestamps();
-
 			$table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
 			$table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
 		});
