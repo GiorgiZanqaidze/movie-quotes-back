@@ -17,52 +17,44 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 	Route::get('/user', function (Request $request) {return $request->user(); });
 });
 
-Route::post('/register', [RegisterController::class, 'register'])->name('user.register');
 Route::post('/login', [AuthController::class, 'login'])->name('user.login');
 Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');
-
-Route::post('/reset-password', [ResetPasswordController::class, 'postPassword'])->name('password.mail');
+Route::post('/reset-password', [ResetPasswordController::class, 'postPassword'])->name('password.reset');
 Route::patch('/reset-password/{token}', [ResetPasswordController::class, 'update'])->name('password.update');
-Route::post('/email/verify/{token}', [RegisterController::class, 'verifyAccount'])->name('user.verify');
 
-Route::post('/resend/email/verify/{token}', [RegisterController::class, 'resendVerificationEmail'])->name('resend.email');
+Route::controller(RegisterController::class)->group(function () {
+	Route::post('/email/verify/{token}', 'verifyAccount')->name('user.verify');
+	Route::post('/register', 'register')->name('user.register');
+	Route::post('/resend/email/verify/{token}', 'resendVerificationEmail')->name('resend.email');
+});
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-	Route::post('/update/avatar/{user}', [UpdateUserController::class, 'updateAvatar'])->name('update.avatar');
-
-	Route::post('/update/user/{user}', [UpdateUserController::class, 'updateUser'])->name('update.user');
-
-	Route::get('/notifications/mark-as-read', [UpdateUserController::class, 'updateNotifications'])->name('update.notifications');
-
-	Route::post('/update-email/{token}', [UpdateUserController::class, 'updateUserEmail'])->name('update.email');
-
+	Route::get('/genres', [GenresController::class, 'genres'])->name('get.genres');
 	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-
-	Route::get('/quotes', [QuoteController::class, 'quotes'])->name('get.quotes');
-
-	Route::post('/quote/store', [QuoteController::class, 'store'])->name('store.quote');
-
-	Route::delete('/quote/destroy/{quote}', [QuoteController::class, 'destroy'])->name('destroy.quote');
-
-	Route::post('/quote/update/{id}', [QuoteController::class, 'update'])->name('update.quote');
-
 	Route::post('/comment/store', [CommentController::class, 'store'])->name('post.comment');
-
 	Route::post('/like/quote', [LikeController::class, 'store'])->name('store.like');
-
 	Route::post('/dislike/quote', [LikeController::class, 'destroy'])->name('destroy.like');
 
-	Route::get('/user-movies', [MovieController::class, 'movies'])->name('get.movies');
+	Route::controller(UpdateUserController::class)->group(function () {
+		Route::post('/update/avatar/{user}', 'updateAvatar')->name('avatar.update');
+		Route::post('/update/user/{user}', 'updateUser')->name('user.update');
+		Route::get('/notifications/mark-as-read', 'updateNotifications')->name('notifications.update');
+		Route::post('/update-email/{token}', 'updateUserEmail')->name('email.verify');
+	});
 
-	Route::get('/all-movies', [MovieController::class, 'allMovies'])->name('get.allMovies');
+	Route::controller(QuoteController::class)->group(function () {
+		Route::get('/quotes', 'quotes')->name('quotes.get');
+		Route::post('/quote/store', 'store')->name('quote.store');
+		Route::delete('/quote/destroy/{quote}', 'destroy')->name('quote.destroy');
+		Route::post('/quote/update/{id}', 'update')->name('quote.update');
+	});
 
-	Route::post('/movie/store', [MovieController::class, 'store'])->name('store.movie');
-
-	Route::delete('/movie/destroy/{movie}', [MovieController::class, 'destroy'])->name('destroy.movie');
-
-	Route::post('/movie/update/{movie}', [MovieController::class, 'update'])->name('update.movie');
-
-	Route::get('/movie/{id}', [MovieController::class, 'movie'])->name('get.movie');
-
-	Route::get('/genres', [GenresController::class, 'genres'])->name('get.genres');
+	Route::controller(MovieController::class)->group(function () {
+		Route::get('/user-movies', 'movies')->name('user.movies');
+		Route::get('/all-movies', 'allMovies')->name('movies.get');
+		Route::post('/movie/store', 'store')->name('movie.store');
+		Route::delete('/movie/destroy/{movie}', 'destroy')->name('movie.destroy');
+		Route::post('/movie/update/{movie}', 'update')->name('movie.update');
+		Route::get('/movie/{id}', 'movie')->name('movie.get');
+	});
 });

@@ -24,6 +24,15 @@ class QuoteController extends Controller
 			$quotes = Quote::whereHas('movie', function ($query) use ($searchQuery) {
 				$query->where('title->en', 'like', '%' . $searchQuery . '%')->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
 			})->latest()->paginate($perPage);
+		} elseif ($searchQuery && !$searchType) {
+			$quotes = Quote::where('name->en', 'like', '%' . $searchQuery . '%')
+			->orWhere('name->ka', 'like', '%' . $searchQuery . '%')
+			->orWhereHas('movie', function ($query) use ($searchQuery) {
+				$query->where('title->en', 'like', '%' . $searchQuery . '%')
+					->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
+			})
+			->latest()
+			->paginate($perPage);
 		} else {
 			$quotes = Quote::latest()->paginate($perPage);
 		}

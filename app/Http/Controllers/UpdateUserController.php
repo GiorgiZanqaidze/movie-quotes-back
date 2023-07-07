@@ -28,7 +28,7 @@ class UpdateUserController extends Controller
 		$validEmail = $request->email;
 
 		if ($validEmail !== $user->email) {
-			Mail::to("$validEmail")->send(new UpdateEmail($user, $validEmail));
+			Mail::to("$user->email")->send(new UpdateEmail($user, $validEmail));
 		}
 
 		$user->update();
