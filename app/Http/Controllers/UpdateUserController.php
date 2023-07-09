@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\User\UpdateUserAvatarRequest as UserUpdateUserAvatarRequest;
+use App\Http\Requests\User\UpdateUserCredentialsRequest;
 use App\Mail\UpdateEmail;
 use App\Models\Notification;
 use App\Models\User;
@@ -20,10 +21,13 @@ class UpdateUserController extends Controller
 		return response()->json($user, 200);
 	}
 
-	public function updateUser(User $user, Request $request): JsonResponse
+	public function updateUser(User $user, UpdateUserCredentialsRequest $request): JsonResponse
 	{
-		$user->name = $request->name;
-		$user->password = $request->password;
+		$user->name = $request->validated('name');
+
+		if ($request->password) {
+			$user->password = $request->validated(['password']);
+		}
 
 		$validEmail = $request->email;
 

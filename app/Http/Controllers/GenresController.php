@@ -7,7 +7,7 @@ use App\Models\Genre;
 
 class GenresController extends Controller
 {
-	public function genres()
+	public function index()
 	{
 		$genres = Genre::all();
 

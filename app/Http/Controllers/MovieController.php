@@ -21,7 +21,7 @@ class MovieController extends Controller
 		return response()->json(['data'=> $movieCollection]);
 	}
 
-	public function movies(Request $request): JsonResponse
+	public function index(Request $request): JsonResponse
 	{
 		$searchQuery = $request->input('query');
 		$user = Auth::user();
@@ -44,7 +44,7 @@ class MovieController extends Controller
 		return response()->json(['data'=> $movieCollection]);
 	}
 
-	public function movie($id)
+	public function get($id)
 	{
 		$movie = Movie::findOrFail($id);
 
