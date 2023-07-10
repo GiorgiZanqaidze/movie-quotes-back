@@ -14,7 +14,7 @@ class UpdateUserPasswordRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'password'              => 'required|confirmed|min:3',
+			'password'              => 'required|confirmed|min:8|max:15|regex:/^[a-z0-9]+$/',
 		];
 
 		return $rules;
