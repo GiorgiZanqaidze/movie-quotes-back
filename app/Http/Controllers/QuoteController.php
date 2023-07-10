@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class QuoteController extends Controller
 {
-	public function quotes(Request $request): JsonResponse
+	public function index(Request $request): JsonResponse
 	{
 		$searchQuery = $request->input('query');
 		$searchType = $request->input('searchType');

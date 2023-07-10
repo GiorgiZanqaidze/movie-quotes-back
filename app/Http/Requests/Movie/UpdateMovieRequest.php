@@ -14,11 +14,11 @@ class UpdateMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'title_en'           => 'required',
+			'title_en'           => 'required|regex:/^[a-zA-Z\s]+$/u',
 			'title_ka'           => 'required',
-			'director_en'        => 'required',
+			'director_en'        => 'required|regex:/^[a-zA-Z\s]+$/u',
 			'director_ka'        => 'required',
-			'description_en'     => 'required',
+			'description_en'     => 'required|regex:/^[a-zA-Z\s]+$/u',
 			'description_ka'     => 'required',
 			'year'               => 'required|integer',
 			'user_id'            => 'exists:users,id',

@@ -14,11 +14,11 @@ class StoreMovieRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'title_en'           => 'required|min:3|max:255',
-			'title_ka'           => 'required|min:3|max:255',
-			'director_en'        => 'required',
+			'title_en'           => 'required|min:3|regex:/^[a-zA-Z\s]+$/u|unique:movies,title->en',
+			'title_ka'           => 'required|unique:movies,title->ka',
+			'director_en'        => 'required|regex:/^[a-zA-Z\s]+$/u',
 			'director_ka'        => 'required',
-			'description_en'     => 'required',
+			'description_en'     => 'required|regex:/^[a-zA-Z\s]+$/u',
 			'description_ka'     => 'required',
 			'year'               => 'required|integer',
 			'image'              => 'required|image',
