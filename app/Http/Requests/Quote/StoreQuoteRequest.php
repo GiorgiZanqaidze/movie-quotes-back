@@ -14,8 +14,8 @@ class StoreQuoteRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'name_en'           => 'required|min:3|max:255',
-			'name_ka'           => 'required|min:3|max:255',
+			'name_en'           => 'required|regex:/^[a-zA-Z\s]+$/u',
+			'name_ka'           => 'required',
 			'image'             => 'required|image',
 			'movie_id'          => 'required|exists:movies,id',
 			'user_id'           => 'required|exists:users,id',

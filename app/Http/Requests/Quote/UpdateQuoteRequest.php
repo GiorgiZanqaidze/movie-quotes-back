@@ -14,8 +14,8 @@ class UpdateQuoteRequest extends FormRequest
 	public function rules(): array
 	{
 		$rules = [
-			'name_en'           => 'required|min:3|max:255',
-			'name_ka'           => 'required|min:3|max:255',
+			'name_en'           => 'required|regex:/^[a-zA-Z\s]+$/u',
+			'name_ka'           => 'required',
 		];
 
 		return $rules;
