@@ -7,7 +7,6 @@ use App\Http\Requests\Movie\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class MovieController extends Controller
@@ -21,33 +20,19 @@ class MovieController extends Controller
 		return response()->json(['data'=> $movieCollection]);
 	}
 
-	public function index(Request $request): JsonResponse
+	public function index(): JsonResponse
 	{
-		$searchQuery = $request->input('query');
 		$user = Auth::user();
 
 		$movies = $user->movies;
-
-		if ($searchQuery && $searchQuery !== 'undefined') {
-			$movies = $user->movies()
-			->where(function ($query) use ($searchQuery) {
-				$query->where('title->en', 'like', '%' . $searchQuery . '%')
-					->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
-			})
-			->get();
-		} else {
-			$movies = $user->movies;
-		}
 
 		$movieCollection = MovieResource::collection($movies);
 
 		return response()->json(['data'=> $movieCollection]);
 	}
 
-	public function get($id)
+	public function get(Movie $movie)
 	{
-		$movie = Movie::findOrFail($id);
-
 		return new MovieResource($movie);
 	}
 
@@ -57,7 +42,7 @@ class MovieController extends Controller
 
 		$movie->delete();
 
-		return response()->json(['msg'=> 'Movie deleted successfully']);
+		return response()->json(['msg'=> 'image deleted']);
 	}
 
 	public function store(StoreMovieRequest $request): JsonResponse

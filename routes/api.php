@@ -13,10 +13,6 @@ use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 use App\Http\Controllers\UpdateUserController;
 
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
-	Route::get('/user', function (Request $request) {return $request->user(); });
-});
-
 Route::post('/login', [AuthController::class, 'login'])->name('user.login');
 Route::get('google-login', [GoogleController::class, 'loginWithGoogle'])->name('google.login');
 Route::post('/reset-password', [ResetPasswordController::class, 'postPassword'])->name('password.reset');
@@ -29,6 +25,8 @@ Route::controller(RegisterController::class)->group(function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+	Route::get('/user', function (Request $request) {return $request->user(); });
+
 	Route::get('/genres', [GenresController::class, 'index'])->name('genres.get');
 	Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 	Route::post('/comment/store', [CommentController::class, 'store'])->name('comment.post');
@@ -55,6 +53,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 		Route::post('/movie/store', 'store')->name('movie.store');
 		Route::delete('/movie/destroy/{movie}', 'destroy')->name('movie.destroy');
 		Route::post('/movie/update/{movie}', 'update')->name('movie.update');
-		Route::get('/movie/{id}', 'get')->name('movie.get');
+		Route::get('/movie/{movie}', 'get')->name('movie.get');
 	});
 });
