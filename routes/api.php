@@ -37,6 +37,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 		Route::post('/update/avatar/{user}', 'updateAvatar')->name('avatar.update');
 		Route::post('/update/user/{user}', 'updateUser')->name('user.update');
 		Route::get('/notifications/mark-as-read', 'updateNotifications')->name('notifications.update');
+		Route::post('/notification/mark-as-read/{notification}', 'updateNotification')->name('notification.update');
 		Route::post('/update-email/{token}', 'updateUserEmail')->name('email.verify');
 	});
 

@@ -8,6 +8,7 @@ use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
@@ -40,6 +41,9 @@ class MovieController extends Controller
 	{
 		$this->authorize('delete', $movie);
 
+		$storagePath = 'images/';
+		Storage::delete($storagePath, $movie->image);
+
 		$movie->delete();
 
 		return response()->json(['msg'=> 'image deleted']);
@@ -67,8 +71,13 @@ class MovieController extends Controller
 		$movie->setTranslations('description', ['en' => $request->description_en, 'ka' => $request->description_ka]);
 		$movie->setTranslations('director', ['en' => $request->director_en, 'ka' => $request->director_ka]);
 
-		if ($request->file('image')) {
-			$movie->image = $request->file('image')->store('images');
+		if ($request->hasFile('image')) {
+			$newImage = $request->file('image')->store('images');
+
+			if ($movie->image && $movie->image !== $newImage) {
+				Storage::delete('images/' . $movie->image);
+			}
+			$movie->image = $newImage;
 		}
 
 		$genres = explode(',', $request->validated(['genres']));
