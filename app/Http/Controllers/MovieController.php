@@ -7,8 +7,8 @@ use App\Http\Requests\Movie\UpdateMovieRequest;
 use App\Http\Resources\MovieResource;
 use App\Models\Movie;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class MovieController extends Controller
 {
@@ -21,33 +21,19 @@ class MovieController extends Controller
 		return response()->json(['data'=> $movieCollection]);
 	}
 
-	public function index(Request $request): JsonResponse
+	public function index(): JsonResponse
 	{
-		$searchQuery = $request->input('query');
 		$user = Auth::user();
 
 		$movies = $user->movies;
-
-		if ($searchQuery && $searchQuery !== 'undefined') {
-			$movies = $user->movies()
-			->where(function ($query) use ($searchQuery) {
-				$query->where('title->en', 'like', '%' . $searchQuery . '%')
-					->orWhere('title->ka', 'like', '%' . $searchQuery . '%');
-			})
-			->get();
-		} else {
-			$movies = $user->movies;
-		}
 
 		$movieCollection = MovieResource::collection($movies);
 
 		return response()->json(['data'=> $movieCollection]);
 	}
 
-	public function get($id)
+	public function get(Movie $movie)
 	{
-		$movie = Movie::findOrFail($id);
-
 		return new MovieResource($movie);
 	}
 
@@ -55,9 +41,12 @@ class MovieController extends Controller
 	{
 		$this->authorize('delete', $movie);
 
+		$storagePath = 'images/';
+		Storage::delete($storagePath, $movie->image);
+
 		$movie->delete();
 
-		return response()->json(['msg'=> 'Movie deleted successfully']);
+		return response()->json(['msg'=> 'image deleted']);
 	}
 
 	public function store(StoreMovieRequest $request): JsonResponse
@@ -82,8 +71,13 @@ class MovieController extends Controller
 		$movie->setTranslations('description', ['en' => $request->description_en, 'ka' => $request->description_ka]);
 		$movie->setTranslations('director', ['en' => $request->director_en, 'ka' => $request->director_ka]);
 
-		if ($request->file('image')) {
-			$movie->image = $request->file('image')->store('images');
+		if ($request->hasFile('image')) {
+			$newImage = $request->file('image')->store('images');
+
+			if ($movie->image && $movie->image !== $newImage) {
+				Storage::delete('images/' . $movie->image);
+			}
+			$movie->image = $newImage;
 		}
 
 		$genres = explode(',', $request->validated(['genres']));

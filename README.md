@@ -28,6 +28,7 @@ The Movie Quotes Application is a web-based platform that allows users to regist
 
 -   <img src="https://github.com/RedberryInternship/example-project-laravel/raw/master/readme/assets/laravel.png" height="18" style="position: relative; top: 4px" /> [Laravel@6.x](https://laravel.com/docs/6.x) - back-end framework
 -   <img src="https://github.com/RedberryInternship/example-project-laravel/raw/master/readme/assets/spatie.png" height="19" style="position: relative; top: 4px" /> [Spatie Translatable](https://github.com/spatie/laravel-translatable) - package for translation
+-   <img src="https://dannyherran.com/wp-content/uploads/2022/01/laravel-sanctum.png" height="19" style="position: relative; top: 4px" /> [Laravel Sanctum](https://laravel.com/docs/10.x/sanctum) - authentication system for SPAs (single page applications)
 
 #
 
@@ -81,6 +82,54 @@ And now you should provide **.env** file all the necessary environment variables
 > DB_USERNAME=**\***
 
 > DB_PASSWORD=**\***
+
+**GOOGLE CLIENT**
+
+> GOOGLE_CLIENT_ID="953164056244-sk94nk3afa81fbf5s3i9qd09r62lmccq.apps.googleusercontent.com"
+> GOOGLE_CLIENT_SECRET="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"
+
+**PUSHER**
+
+> PUSHER_APP_ID=**\***
+> PUSHER_APP_KEY=**\***
+> PUSHER_APP_SECRET=**\***
+> PUSHER_HOST=
+> PUSHER_PORT=**\***
+> PUSHER_SCHEME=https
+> PUSHER_APP_CLUSTER=eu
+
+**SMTP**
+
+> MAIL_MAILER=smtp
+> MAIL_DRIVER=smtp
+> MAIL_HOST=smtp.googlemail.com
+> MAIL_PORT=465
+> MAIL_USERNAME=**\***
+> MAIL_PASSWORD=**\***
+> MAIL_ENCRYPTION=ssl
+> MAIL_FROM_NAME="${APP_NAME}"
+
+**PUSHER**
+
+> BROADCAST_DRIVER=pusher
+> CACHE_DRIVER=file
+> FILESYSTEM_DISK=public
+> QUEUE_CONNECTION=sync
+> SESSION_DRIVER=file
+> SESSION_LIFETIME=120
+
+**URLs**
+
+> BASE_URL=http://localhost:5173
+> FRONT_END_URL=http://localhost:5173
+
+**SESSION DOMAIN**
+
+> SESSION_DOMAIN=localhost
+
+**SANCTUM DOMAIN**
+
+> SANCTUM_STATEFUL_DOMAINS=localhost:5173
 
 ##### Now, you should be good to go!
 

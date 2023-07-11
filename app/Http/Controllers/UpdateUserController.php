@@ -59,4 +59,14 @@ class UpdateUserController extends Controller
 
 		return response()->json($sortedNotifications, 200);
 	}
+
+	public function updateNotification(Notification $notification): JsonResponse
+	{
+		$notification->update(['read_at' => now()]);
+
+		$notifications = Notification::where('receiver_id', auth()->id());
+
+		$sortedNotifications = $notifications->orderBy('created_at', 'desc')->get();
+		return response()->json($sortedNotifications, 200);
+	}
 }
