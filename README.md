@@ -60,10 +60,11 @@ in order to build your JS/SaaS resources.
 cp .env.example .env
 ```
 
-```sh
 5\. key generage
+
 php artisan key:generate
-```
+
+````
 
 And now you should provide **.env** file all the necessary environment variables:
 
@@ -141,7 +142,7 @@ if you've completed getting started section, then migrating database if fairly s
 
 ```sh
 php artisan migrate
-```
+````
 
 #
 
@@ -164,3 +165,5 @@ For more information about project standards, take a look at these docs:
 [Database Design Diagram]
 
 <a href="https://ibb.co/MCGpW31">Draw Sql</a>
+
+-   <img src="https://ibb.co/MCGpW31" height="40" style="position: relative; top: 4px" />
