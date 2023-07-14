@@ -165,3 +165,5 @@ For more information about project standards, take a look at these docs:
 [Database Design Diagram]
 
 <a href="https://ibb.co/MCGpW31">Draw Sql</a>
+
+-   <img src="https://ibb.co/MCGpW31" height="40" style="position: relative; top: 4px" />
