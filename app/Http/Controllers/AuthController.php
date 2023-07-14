@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
 	public function login(UserLoginUserRequest $request)
 	{
-		$input = $request->all();
+		$input = $request->validated();
 
 		$fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
