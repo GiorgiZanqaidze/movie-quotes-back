@@ -23,9 +23,7 @@ class MovieController extends Controller
 
 	public function index(): JsonResponse
 	{
-		$user = Auth::user();
-
-		$movies = $user->movies;
+		$movies = Auth::user()->movies;
 
 		$movieCollection = MovieResource::collection($movies);
 
