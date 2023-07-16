@@ -49,9 +49,7 @@ class QuoteController extends Controller
 		$quote->image = $request->file('image')->store('images');
 		$quote->save();
 
-		$newQuote = Quote::where('id', $quote->id)->first();
-
-		return response()->json(new QuoteResource($newQuote));
+		return response()->json(new QuoteResource($quote));
 	}
 
 	public function destroy(Quote $quote)
