@@ -8,6 +8,7 @@ use App\Http\Resources\QuoteResource;
 use App\Models\Quote;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class QuoteController extends Controller
 {
@@ -58,6 +59,10 @@ class QuoteController extends Controller
 	{
 		$this->authorize('delete', $quote);
 
+		$storagePath = 'images/';
+
+		Storage::delete($storagePath, $quote->image);
+
 		$quote->delete();
 
 		return response()->json(['response'=> 'Successfully Deleted']);
@@ -70,7 +75,12 @@ class QuoteController extends Controller
 		$this->authorize('update', $quote);
 		$quote->setTranslations('name', ['en' => $request->name_en, 'ka' => $request->name_ka]);
 		if ($request->file('image')) {
-			$quote->image = $request->file('image')->store('images');
+			$newImage = $request->file('image')->store('images');
+
+			if ($quote->image && $quote->image !== $newImage) {
+				Storage::delete('images/' . $quote->image);
+			}
+			$quote->image = $newImage;
 		}
 		$quote->update();
 

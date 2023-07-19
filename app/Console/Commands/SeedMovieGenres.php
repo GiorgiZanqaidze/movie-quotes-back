@@ -19,7 +19,7 @@ class SeedMovieGenres extends Command
 	 *
 	 * @var string
 	 */
-	protected $description = 'Command description';
+	protected $description = ' This command automates the process of populating the genres table with pre-defined movie genres and their translations in English and Georgian languages.';
 
 	/**
 	 * Execute the console command.

@@ -10,7 +10,7 @@ class AuthController extends Controller
 {
 	public function login(UserLoginUserRequest $request)
 	{
-		$input = $request->all();
+		$input = $request->validated();
 
 		$fieldType = filter_var($request->email, FILTER_VALIDATE_EMAIL) ? 'email' : 'name';
 
@@ -34,8 +34,6 @@ class AuthController extends Controller
 	public function logout(Request $request)
 	{
 		$request->session()->invalidate();
-
-		$request->session()->regenerateToken();
 
 		return response()->json('Successfully logged out');
 	}
