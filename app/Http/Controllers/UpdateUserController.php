@@ -10,14 +10,23 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Storage;
 
 class UpdateUserController extends Controller
 {
 	public function updateAvatar(User $user, UserUpdateUserAvatarRequest $request): JsonResponse
 	{
 		$request->validated();
-		$user->image = $request->file('avatar')->store('images');
+
+		$newImage = $request->file('avatar')->store('images');
+
+		if ($user->image && $user->image !== $newImage) {
+			Storage::delete('images/' . $user->image);
+		}
+		$user->image = $newImage;
+
 		$user->update();
+
 		return response()->json($user, 200);
 	}
 
